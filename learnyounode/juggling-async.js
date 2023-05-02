@@ -1,3 +1,35 @@
+const http = require('http')
+const bl = require('bl');
+
+let results = [];
+let finished = 0
+
+function printResults() {
+    for (let i = 0; i < 3; i++) {
+        console.log(results[i])
+    }
+}
+
+function getHttp(index) {
+    http.get(process.argv[2 + index], (response) => {
+        response.pipe(bl((err, data) => {
+            if (err) {
+                return console.error(err)
+            }
+
+            results[index] = data.toString()
+            finished++;
+
+            if (finished == 3) {
+                printResults()
+            }
+        }))  
+    })
+}
+
+for (let i = 0; i < 3; i++) {
+    getHttp(i)
+}
 
 
 /*
