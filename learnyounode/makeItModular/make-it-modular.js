@@ -1,4 +1,15 @@
+const mod = require("./mymodule")
 
+let dir = process.argv[2]
+let ext = process.argv[3]
+
+mod(dir, ext, (err, files) => {
+    if (err) { return callback(err) }
+
+    files.forEach((file) => {
+        console.log(file)
+    })
+})
 
 /*
     ## MAKE IT MODULAR (Exercise 6 of 13)  
@@ -18,7 +29,7 @@
   module must export a single function that takes three arguments: the  
   directory name, the filename extension string and your callback function,  
   in that order. Don't alter the filename extension string in any way before  
-  passing it to your module.  
+  passing it to your module.
    
   The callback function must be called using the idiomatic node(err, data)  
   convention. This convention stipulates that unless there's an error, the  
@@ -26,7 +37,7 @@
   your data. In this exercise, the data will be your filtered list of files,  
   as an Array. If you receive an error, e.g. from your call to  
   fs.readdir(), the callback must be called with the error as the first and  
-  only argument.  
+  only argument.
    
   You must not print directly to the console from your module file, only  
   from your original program.  
