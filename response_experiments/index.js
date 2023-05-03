@@ -31,6 +31,15 @@ app.get('/newname', (req, res) => {
     res.send(namelist)
 })
 
+//FIXME:
+app.get('/secret2', (req, res) => {
+    if(req.headers.authorization != "aGFja2VyOjEyMzQ=") {
+        res.sendStatus(401)
+    } else {
+        res.send("Yoink")
+    }
+})
+
 app.listen(port, () => {
     console.log("server started")
 })
