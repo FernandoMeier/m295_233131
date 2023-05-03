@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<books>
+  <book>
+    <title>title1</title>
+    <author>author1</author>
+    <year>1234</year>
+  </book>
+  <book>
+    <title>title2</title>
+    <author>author2</author>
+    <year>4321</year>
+  </book>
+</books>
