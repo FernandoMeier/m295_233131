@@ -2,10 +2,16 @@
 //`cd /workspaces/m295_233131/express_helloworld`
 //`node index.js`
 
-const express = require("express")
+//this is the server
 
-const app = express()
-const port = 3030
+const express = require("express")
+const cors = require("cors")
+
+const app = express();
+const port = 3030;
+
+app.use(cors())
+app.use(express.json())
 
 const names = [
     'Alice',
@@ -39,7 +45,8 @@ app.get('/', (req, res) => {
 })
 
 app.get("/now", (req, res) => {
-    res.send(new Date().toISOString())
+    const tz = req.query.tz || "Europe/Berlin";
+    res.send(new Date().toLocaleString("de-CH", { timeZone: tz }));
 })
 
 app.get("/zli", (req, res) => {

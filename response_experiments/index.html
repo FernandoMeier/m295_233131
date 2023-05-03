@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const deleteform = document.getElementById("delete-name-form");
+            const postform = document.getElementById("post-name-form");
+
+            deleteform.addEventListener("submit", (event) => {
+                const formData = new FormData(deleteform);
+                console.log(formData)
+                fetch("http://localhost:3003/newname", {
+                    method: "DELETE",
+                    body: formData
+                }).then((res) => {
+                    console.log(res)
+                })
+                event.preventDefault();
+            })
+
+            postform.addEventListener("submit", (event) => {
+                const formData = new FormData(postform);
+                console.log(formData)
+                fetch("http://localhost:3003/newname", {
+                    method: "POST",
+                    body: formData
+                }).then((res) => {
+                    console.log(res)
+                })
+                event.preventDefault();
+            })
+        })
+    </script>
+</head>
+
+<body>
+    <form id="post-name-form" action="http://localhost:3003/newname">
+        <label for="name-input">
+            <input type="text" name="name" id="name-input">
+            <button type="submit">Hinzufügen</button>
+    </form>
+
+    <form id="delete-name-form" action="http://localhost:3003/newname">
+        <label for="name-input">
+            <input type="text" name="name" id="name-input">
+            <button type="submit">Löschen</button>
+    </form>
+</body>
+
+</html>
