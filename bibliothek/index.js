@@ -10,12 +10,11 @@ app.use(express.json())
 app.use(session({
     secret: 'supersecret',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {}
-}
-))
+}))
 
-const adminCreds = { "email": "desk@library.example", "password": "m295" }
+const secretAdminCredentials = { email: "desk@library.example", password: "m295" }
 
 let books = [
     {
@@ -55,54 +54,28 @@ let books = [
     }
 ];
 
-app.get('/', (req, res) => {
-    req.session.views = (req.session.views || 0) + 1;
-    console.log(req.session)
-    res.send(`You were here ${req.session.views} times this session!`)
-})
-
-// --------------- start of login --------------------
-
-app.post('/login', function (request, response) {
-    const { email, password } = request.body
-
-    // Check the credentials against store
-    if (email?.toLowerCase() == secretAdminCredentials.email && password == secretAdminCredentials.password) {
-
-        // Link email to session
-        request.session.email = email
-
-        return response.status(200).json({ email: request.session.email })
+let lends = [
+    {
+        "id": "1",
+        "customer_id": "e",
+        "isbn": "e",
+        "borrowed_at": "e",
+        "returned_at": "e"
+    },
+    {
+        "id": "2",
+        "customer_id": "e",
+        "isbn": "e",
+        "borrowed_at": "e",
+        "returned_at": "e"
     }
+]
 
-    return response.status(401).json({ error: "Invalid credentials" })
+app.get('/', (request, res) => {
+    request.session.views = (request.session.views || 0) + 1;
+    console.log(request.session)
+    res.send(`You were here ${request.session.views} times this session!`)
 })
-
-app.get('/verify', function (request, response) {
-
-    // Check if email is set in session
-    if (request.session.email) {
-        return response.status(200).json({ email: request.session.email })
-    }
-
-    return response.status(401).json({ error: "Not logged in" })
-})
-
-app.delete('/logout', function (request, response) {
-
-    // Check if email is set in session
-    if (request.session.email) {
-
-        // Reset link of session to email
-        request.session.email = null
-
-        return response.status(204).send()
-    }
-
-    return response.status(401).json({ error: "Not logged in" })
-})
-
-// --------------- end of login --------------------
 
 app.get('/books', (req, res) => {
     res.send(books)
@@ -111,6 +84,18 @@ app.get('/books', (req, res) => {
 app.get('/books/:isbn', (req, res) => {
     const isbn = req.params.isbn
     const found = books.filter((b) => b.isbn == isbn)
+
+    res.send(found)
+})
+
+app.get('/lends', (req, res) => {
+    console.log(lends.length);
+    res.send(lends)
+})
+
+app.get('/lends/:id', (req, res) => {
+    const id = req.params.id
+    const found = lends.filter((l) => l.id == id)
 
     res.send(found)
 })
@@ -139,6 +124,26 @@ app.post('/books/:title', (req, res) => {
     }
 })
 
+app.post('/lends', (req, res) => {
+    // id der ausleihe
+    // customer_id
+    // isbn
+    // borowed_at
+    // returned_at
+
+    const newLend = {
+        "id": lends.length + 1,
+        "customer_id": req.query.customer_id,
+        "isbn": req.query.isbn,
+        "borowed_at": req.query.borrowed_at,
+        "returned_at": req.query.returned_at
+    }
+
+    lends = [...lends, newLend]
+
+    res.send(lends)
+})
+
 app.put('/books/:isbn', (req, res) => {
     if (req.query.title && req.query.author && req.query.year && req.params.isbn) {
         const book = {
@@ -154,6 +159,19 @@ app.put('/books/:isbn', (req, res) => {
     } else {
         res.sendStatus(422)
     }
+})
+
+app.patch('/lends/:id', (req, res) => {
+    const lend = {
+        "id": req.params.id,
+        "customer_id": req.query.customer_id,
+        "isbn": req.query.isbn,
+        "borowed_at": req.query.borrowed_at,
+        "returned_at": req.query.returned_at
+    }
+
+    lends = lends.map((l) => l.id == lend.id ? lend : l)
+    res.send(lends)
 })
 
 app.listen(port, () => {
