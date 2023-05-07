@@ -127,12 +127,6 @@ app.post('/books', multer().none(), (req, res) => {
 })
 
 app.post('/lends', (req, res) => {
-    // id der ausleihe
-    // customer_id
-    // isbn
-    // borowed_at
-    // returned_at
-
     const newLend = {
         "id": lends.length + 1,
         "customer_id": req.query.customer_id,

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Library</title>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -24,34 +24,72 @@
                         alert("An unknown error occured, wait a few minutes and try again")
                     }
                 })
-                event.preventDefault();
             })
         })
 
 
     </script>
+
+    <style>
+        html {
+            background-color: rgb(51, 49, 49);
+            color: rgb(255, 255, 255);
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        input,
+        button {
+            display: inline;
+            width: 100%;
+            font-family: 'Times New Roman', Times, serif;
+            margin-top: 30px;
+            padding: 0;
+            border: none;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        form {
+            max-width: 200px;
+        }
+
+        button {
+            height: 30px;
+        }
+    </style>
 </head>
 
 <body>
-    <form id="add">
-        <label for="name-input">
-            <input type="text" name="book" id="name-input" placeholder="Name of book" autocomplete="off">
-        </label>
+    <div id="bookDiv">
+        <form id="add">
+            <label for="name-input">
+                <input type="text" name="book" id="name-input" placeholder="Name of book" autocomplete="off">
+            </label>
 
-        <label for="author-input">
-            <input type="text" name="author" id="author-input" placeholder="Author" autocomplete="off">
-        </label>
+            <label for="author-input">
+                <input type="text" name="author" id="author-input" placeholder="Author" autocomplete="off">
+            </label>
 
-        <label for="year-input">
-            <input type="text" name="year" id="Year-input" placeholder="Year of release" autocomplete="off">
-        </label>
+            <label for="year-input">
+                <input type="text" name="year" id="Year-input" placeholder="Year of release" autocomplete="off">
+            </label>
 
-        <label for="isbn-input">
-            <input type="text" name="isbn" id="isbn-input" placeholder="ISBN" autocomplete="off">
-        </label>
+            <label for="isbn-input">
+                <input type="text" name="isbn" id="isbn-input" placeholder="ISBN" autocomplete="off">
+            </label>
 
-        <button type="submit">Add book</button>
-    </form>
+            <button type="submit">Add book</button>
+        </form>
+    </div>
+
 </body>
 
 </html>
