@@ -31,7 +31,7 @@ app.get('/newname', (req, res) => {
     res.send(namelist)
 })
 
-//FIXME:
+//TODO:
 app.get('/secret2', (req, res) => {
     if(req.headers.authorization != "aGFja2VyOjEyMzQ=") {
         res.sendStatus(401)

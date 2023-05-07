@@ -9,41 +9,45 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const addbookform = document.getElementById("add-book-form");
-
+            const addbookform = document.getElementById("add");
             addbookform.addEventListener("submit", (event) => {
-                const formData = new FormData(addbookform);
-                console.log(formData)
+                const formData = new FormData(addbookform)
                 fetch("http://localhost:3300/books", {
                     method: "POST",
                     body: formData
                 }).then((res) => {
-                    console.log(res)
+                    if (res.status == 201) {
+                        alert("Book created")
+                    } else if (res.status == 422) {
+                        alert("It seems you forgot one or more values")
+                    } else {
+                        alert("An unknown error occured, wait a few minutes and try again")
+                    }
                 })
                 event.preventDefault();
             })
         })
 
-        // action="http://localhost:3300/books"
+
     </script>
 </head>
 
 <body>
-    <form id="add-book-form" action="http://localhost:3300/books">
+    <form id="add">
         <label for="name-input">
-            <input type="text" name="book" id="name-input" placeholder="Name of book">
+            <input type="text" name="book" id="name-input" placeholder="Name of book" autocomplete="off">
         </label>
 
         <label for="author-input">
-            <input type="text" name="author" id="author-input" placeholder="Author">
+            <input type="text" name="author" id="author-input" placeholder="Author" autocomplete="off">
         </label>
 
         <label for="year-input">
-            <input type="text" name="year" id="Year-input" placeholder="Year of release">
+            <input type="text" name="year" id="Year-input" placeholder="Year of release" autocomplete="off">
         </label>
 
         <label for="isbn-input">
-            <input type="text" name="isbn" id="isbn-input" placeholder="ISBN">
+            <input type="text" name="isbn" id="isbn-input" placeholder="ISBN" autocomplete="off">
         </label>
 
         <button type="submit">Add book</button>

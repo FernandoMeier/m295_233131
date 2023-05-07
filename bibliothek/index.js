@@ -1,5 +1,6 @@
 const express = require("express")
 const cors = require("cors")
+const multer = require('multer')
 const session = require("express-session")
 
 const app = express();
@@ -107,21 +108,22 @@ app.delete('/books/:isbn', (req, res) => {
     res.send(books)
 })
 
-app.post('/books/:title', (req, res) => {
-    if (req.params.title && req.query.author && req.query.year && req.query.isbn) {
+app.post('/books', multer().none(), (req, res) => {
+    if (req.body.book && req.body.author && req.body.year && req.body.isbn) {
         const book = {
-            "title": req.params.title,
-            "author": req.query.author,
-            "year": req.query.year,
-            "isbn": req.query.isbn,
+            "title": req.body.book,
+            "author": req.body.author,
+            "year": req.body.year,
+            "isbn": req.body.isbn,
             "lent": false
         }
         books = [...books, book]
 
-        res.send(books)
+        res.status(201).send(books)
     } else {
-        res.sendStatus(422)
+        res.status(422).send("could not post book, something is missing")
     }
+    console.log(req.body.book)
 })
 
 app.post('/lends', (req, res) => {
@@ -172,7 +174,7 @@ app.patch('/lends/:id', (req, res) => {
 
     lends = lends.map((l) => l.id == lend.id ? lend : l)
     res.send(lends)
-})
+})  
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`)
